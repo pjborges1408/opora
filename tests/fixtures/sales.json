@@ -1,0 +1,114 @@
+{
+  "sales": [
+    {
+      "external_id": "fixture-1",
+      "contact_name": "Alex",
+      "sold_on": "2026-10-01",
+      "gross_cents": 153000,
+      "net_received_cents": 142500,
+      "fee_cents": 10500,
+      "payment_method": "Cartão",
+      "installments": 4,
+      "source": "Dado fictício de teste; valores de reconciliação fornecidos pelo usuário",
+      "items": [
+        {
+          "service_name": "Bioestimulador",
+          "allocated_cents": 153000
+        }
+      ]
+    },
+    {
+      "external_id": "fixture-2",
+      "contact_name": "Bianca",
+      "sold_on": "2026-10-07",
+      "gross_cents": 180000,
+      "net_received_cents": 160000,
+      "fee_cents": 20000,
+      "payment_method": "Cartão",
+      "installments": 10,
+      "source": "Dado fictício de teste; valores de reconciliação fornecidos pelo usuário",
+      "items": [
+        {
+          "service_name": "Procedimento não informado",
+          "allocated_cents": null
+        }
+      ]
+    },
+    {
+      "external_id": "fixture-3",
+      "contact_name": "Cecilia",
+      "sold_on": "2026-10-07",
+      "gross_cents": 180000,
+      "net_received_cents": 160000,
+      "fee_cents": 20000,
+      "payment_method": "Cartão",
+      "installments": 10,
+      "source": "Dado fictício de teste; valores de reconciliação fornecidos pelo usuário",
+      "items": [
+        {
+          "service_name": "Botox",
+          "allocated_cents": null
+        },
+        {
+          "service_name": "Preenchimento labial",
+          "allocated_cents": null
+        }
+      ]
+    },
+    {
+      "external_id": "fixture-4",
+      "contact_name": "Daniela",
+      "sold_on": "2026-10-14",
+      "gross_cents": 95000,
+      "net_received_cents": 95000,
+      "fee_cents": 0,
+      "payment_method": "Pix",
+      "installments": 1,
+      "source": "Dado fictício de teste; valores de reconciliação fornecidos pelo usuário",
+      "items": [
+        {
+          "service_name": "Botox",
+          "allocated_cents": 95000
+        }
+      ]
+    },
+    {
+      "external_id": "fixture-5",
+      "contact_name": "Elisa",
+      "sold_on": "2026-10-18",
+      "gross_cents": 75000,
+      "net_received_cents": 68700,
+      "fee_cents": 6300,
+      "payment_method": "Cartão",
+      "installments": 10,
+      "source": "Dado fictício de teste; valores de reconciliação fornecidos pelo usuário",
+      "items": [
+        {
+          "service_name": "Botox",
+          "allocated_cents": 75000
+        }
+      ]
+    },
+    {
+      "external_id": "fixture-6",
+      "contact_name": "Fabio",
+      "sold_on": "2026-10-20",
+      "gross_cents": 245000,
+      "net_received_cents": 217900,
+      "fee_cents": 27100,
+      "payment_method": "Cartão",
+      "installments": 10,
+      "source": "Dado fictício de teste; valores de reconciliação fornecidos pelo usuário",
+      "items": [
+        {
+          "service_name": "Bioestimulador",
+          "allocated_cents": null
+        },
+        {
+          "service_name": "Botox",
+          "allocated_cents": null
+        }
+      ]
+    }
+  ]
+}

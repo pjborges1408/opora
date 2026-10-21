@@ -1,0 +1,24 @@
+import { test,expect } from '@playwright/test';
+test('navegação, registro, correção e decisão funcionam em desktop e celular',async({page,isMobile},testInfo)=>{
+  const errors:string[]=[];page.on('pageerror',e=>errors.push(e.message));
+  await page.goto('/');await expect(page.getByRole('heading',{name:/Carolinna/})).toBeVisible();
+  await expect(page.getByRole('button',{name:/Vendido no período/})).toContainText('9.280,00');
+  expect(await page.evaluate(()=>document.documentElement.scrollWidth<=window.innerWidth)).toBe(true);
+  if(isMobile)await page.getByRole('button',{name:'Abrir navegação'}).click();
+  await page.getByRole('button',{name:'Clínica',exact:true}).click();
+  await page.getByRole('button',{name:'Venda',exact:true}).click();
+  const name='Teste navegador '+testInfo.project.name;
+  await page.getByLabel('Nome do contato').fill(name);await page.getByLabel('Procedimentos',{exact:true}).fill('Botox');await page.getByLabel('Data da venda').fill('2026-10-21');
+  await page.getByLabel('Valor vendido antes do desconto (R$)').fill('1000,00');await page.getByLabel('Já recebido após taxas (R$)').fill('900,00');await page.getByLabel('Taxa confirmada (R$)').fill('100,00');await page.getByRole('button',{name:'Registrar venda única'}).click();
+  await expect(page.getByRole('dialog')).not.toBeVisible();await page.getByRole('button',{name,exact:true}).click();await page.getByRole('button',{name:'Conferir recebimento',exact:true}).click();
+  await page.getByLabel('Valor efetivamente recebido (R$)').fill('890,00');await page.getByLabel('Motivo da correção').fill('Conferência pelo navegador');await page.getByRole('button',{name:'Salvar',exact:true}).click();await expect(page.getByRole('dialog')).not.toBeVisible();
+  await page.getByRole('button',{name,exact:true}).click();await expect(page.getByRole('dialog')).toContainText('R$ 890,00');await expect(page.getByRole('dialog')).toContainText('R$ 10,00');await page.getByRole('button',{name:'Fechar',exact:true}).click();
+  if(isMobile)await page.getByRole('button',{name:'Abrir navegação'}).click();await page.getByRole('button',{name:'Investigar e decidir',exact:true}).click();
+  await expect(page.getByText('Busca por palavras-chave aguardando conexão')).toBeVisible();
+  await page.getByRole('button',{name:'Investigar',exact:true}).click();await page.getByLabel('O que você quer investigar?').fill('Regras oficiais de anúncios para estética');await page.getByLabel('Que decisão essa informação vai ajudar?').fill('Conferir a próxima campanha');await page.getByLabel('Conferi que a consulta não contém dados identificáveis de pacientes').check();await page.getByRole('button',{name:'Salvar pergunta pendente'}).click();await expect(page.getByText('Regras oficiais de anúncios para estética',{exact:true}).first()).toBeVisible();
+  await page.getByRole('button',{name:/Descobrir o custo antes/}).click();await page.getByRole('button',{name:'Registrar decisão'}).click();await expect(page.getByRole('dialog')).not.toBeVisible();
+  if(isMobile)await page.getByRole('button',{name:'Abrir navegação'}).click();await page.getByRole('button',{name:'Histórico',exact:true}).click();
+  await page.getByRole('button',{name:'Registrar execução e resultado'}).first().click();await page.getByLabel('O que aconteceu?').fill('Registros conferidos no navegador');await page.getByLabel('O que aprendemos e o que continua incerto?').fill('Ainda faltam custos. Nenhuma causa presumida.');await page.getByRole('button',{name:'Salvar resultado e aprendizado'}).click();await expect(page.getByText('Registros conferidos no navegador').first()).toBeVisible();
+  await page.reload();await expect(page.getByRole('heading',{name:/Carolinna/})).toBeVisible();
+  await page.screenshot({path:`/tmp/opora-${testInfo.project.name}.png`,fullPage:true});expect(errors).toEqual([]);
+});

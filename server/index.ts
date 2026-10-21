@@ -1,0 +1,12 @@
+import { createApp } from './app.ts';
+import { Store } from './database.ts';
+import { startWorker } from './research.ts';
+import { createServer } from 'node:http';
+const host=process.env.HOST??'127.0.0.1',port=Number(process.env.PORT??3000);
+if(!['127.0.0.1','localhost','::1'].includes(host) && (!process.env.OPORA_ACCESS_PASSWORD || process.env.OPORA_ACCESS_PASSWORD.length<16 || !process.env.OPORA_PUBLIC_ORIGIN))throw new Error('Acesso externo exige OPORA_ACCESS_PASSWORD (mínimo 16 caracteres) e OPORA_PUBLIC_ORIGIN. Configure HTTPS no proxy de produção.');
+const store=new Store(process.env.OPORA_DB??'.local/opora.sqlite');
+const app=createApp(store),stopWorker=startWorker(store);
+const server=createServer(app);
+server.once('error',(error:NodeJS.ErrnoException)=>{stopWorker();store.close();console.error('Não foi possível iniciar a Opora:',error.code??'erro de escuta');process.exitCode=1;});
+server.listen(port,host,()=>console.log(`Opora iniciada na porta ${port}. Banco persistente; serviços externos opcionais.`));
+for(const signal of ['SIGTERM','SIGINT'] as const)process.on(signal,()=>{stopWorker();server.close(()=>{store.close();process.exit(0);});});
